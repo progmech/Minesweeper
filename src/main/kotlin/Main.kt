@@ -1,30 +1,37 @@
 package minesweeper
-fun main(args: Array<String>) {
+
+import kotlin.random.Random
+
+const val FIELD_SIZE = 9
+
+fun main() {
+    val fieldRange = 0 until FIELD_SIZE
     val field = arrayOf(
-        arrayOf('.', '.', '.', '.', '.', '.', '.', '.', '.'),
-        arrayOf('.', '.', '.', '.', '.', '.', '.', '.', '.'),
-        arrayOf('.', '.', '.', '.', '.', '.', '.', '.', '.'),
-        arrayOf('.', '.', '.', '.', '.', '.', '.', '.', '.'),
-        arrayOf('.', '.', '.', '.', '.', '.', '.', '.', '.'),
-        arrayOf('.', '.', '.', '.', '.', '.', '.', '.', '.'),
-        arrayOf('.', '.', '.', '.', '.', '.', '.', '.', '.'),
-        arrayOf('.', '.', '.', '.', '.', '.', '.', '.', '.'),
-        arrayOf('.', '.', '.', '.', '.', '.', '.', '.', '.'),
+        CharArray(FIELD_SIZE) {'.'},
+        CharArray(FIELD_SIZE) {'.'},
+        CharArray(FIELD_SIZE) {'.'},
+        CharArray(FIELD_SIZE) {'.'},
+        CharArray(FIELD_SIZE) {'.'},
+        CharArray(FIELD_SIZE) {'.'},
+        CharArray(FIELD_SIZE) {'.'},
+        CharArray(FIELD_SIZE) {'.'},
+        CharArray(FIELD_SIZE) {'.'}
     )
-    var mineCount = 10
-    for (y in 0..8) {
-        for (x in 0..8) {
-            if (mineCount != 0) {
-                if (x % 2 == 0 && y % 2 == 0) {
-                    mineCount--
-                    field[y][x] = 'X'
-                }
-            }
-        }
+
+    println("How many mines do you want on the field?")
+    var mineCount = readLine()!!.toInt()
+
+    while(mineCount != 0) {
+        val newX = Random.nextInt(0, FIELD_SIZE)
+        val newY = Random.nextInt(0, FIELD_SIZE)
+        if (field[newY][newX] == 'X') continue
+        field[newY][newX] = 'X'
+        mineCount--
     }
-    for (y in 0..8) {
-        for (x in 0..8) {
-            print(field[x][y])
+
+    for (y in fieldRange) {
+        for (x in fieldRange) {
+            print(field[y][x])
         }
         println("")
     }
