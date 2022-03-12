@@ -27,7 +27,7 @@ class Minesweeper {
         while (!theEnd) {
             println("Set/unset mine marks or claim a cell as free:")
             try {
-                val(stringX, stringY, command) = readln().split(' ')
+                val(stringX, stringY, command) = readLine()!!.split(" ")
                 val x = stringX.toInt() - 1
                 val y = stringY.toInt() - 1
                 theEnd = when (command) {
@@ -64,8 +64,6 @@ class Minesweeper {
 
     private fun printField() {
         val fieldRange = 0 until FIELD_SIZE
-        var top = ""
-        for (n in fieldRange) top += (n+1).toString()
         println(" │123456789│")
         println("—│—————————│")
         for (y in fieldRange) {
@@ -111,34 +109,34 @@ class Minesweeper {
     }
 
     private fun exploreNeighboringCells(y: Int, x: Int) {
-        if (field[y][x].value != CellValue.EMPTY) return
         if (field[y][x].state == CellState.EXPLORED) return
         field[y][x].state = CellState.EXPLORED
-        if (isTopLeftCorner(y, x)) {
+        if (field[y][x].value != CellValue.EMPTY) return
+        if (isTopLeftCorner(x, y)) {
             exploreNeighboringCells(y + 1, x)
             exploreNeighboringCells(y, x + 1)
             exploreNeighboringCells(y + 1, x + 1)
             return
         }
-        if (isTopRightCorner(y, x)) {
+        if (isTopRightCorner(x, y)) {
             exploreNeighboringCells(y, x - 1)
             exploreNeighboringCells(y + 1, x)
             exploreNeighboringCells(y + 1, x - 1)
             return
         }
-        if (isBottomLeftCorner(y, x)) {
+        if (isBottomLeftCorner(x, y)) {
             exploreNeighboringCells(y-1, x)
             exploreNeighboringCells(y,x+1)
             exploreNeighboringCells(y - 1, x + 1)
             return
         }
-        if (isBottomRightCorner(y, x)) {
+        if (isBottomRightCorner(x, y)) {
             exploreNeighboringCells(y-1,x)
             exploreNeighboringCells(y, x-1)
             exploreNeighboringCells(y - 1, x - 1)
             return
         }
-        if (isTopSide(y, x)) {
+        if (isTopSide(x, y)) {
             exploreNeighboringCells(y,x-1)
             exploreNeighboringCells(y+1,x-1)
             exploreNeighboringCells(y+1, x)
@@ -146,7 +144,7 @@ class Minesweeper {
             exploreNeighboringCells(y, x + 1)
             return
         }
-        if (isBottomSide(y, x)) {
+        if (isBottomSide(x, y)) {
             exploreNeighboringCells(y, x-1)
             exploreNeighboringCells(y-1, x-1)
             exploreNeighboringCells(y-1, x)
@@ -154,7 +152,7 @@ class Minesweeper {
             exploreNeighboringCells(y, x + 1)
             return
         }
-        if (isLeftSide(y, x)) {
+        if (isLeftSide(x, y)) {
             exploreNeighboringCells(y-1, x)
             exploreNeighboringCells(y-1, x+1)
             exploreNeighboringCells(y, x+1)
@@ -162,7 +160,7 @@ class Minesweeper {
             exploreNeighboringCells(y+1, x)
             return
         }
-        if (isRightSide(y, x)) {
+        if (isRightSide(x, y)) {
             exploreNeighboringCells(y-1,x)
             exploreNeighboringCells(y-1,x-1)
             exploreNeighboringCells(y,x-1)
@@ -170,14 +168,14 @@ class Minesweeper {
             exploreNeighboringCells(y+1,x)
             return
         }
-            exploreNeighboringCells(y-1,x-1)
-            exploreNeighboringCells(y-1,x)
-            exploreNeighboringCells(y-1,x+1)
-            exploreNeighboringCells(y,x+1)
-            exploreNeighboringCells(y+1,x+1)
-            exploreNeighboringCells(y+1,x)
-            exploreNeighboringCells(y+1,x-1)
-            exploreNeighboringCells(y,x-1)
+        exploreNeighboringCells(y-1,x-1)
+        exploreNeighboringCells(y-1,x)
+        exploreNeighboringCells(y-1,x+1)
+        exploreNeighboringCells(y,x+1)
+        exploreNeighboringCells(y+1,x+1)
+        exploreNeighboringCells(y+1,x)
+        exploreNeighboringCells(y+1,x-1)
+        exploreNeighboringCells(y,x-1)
     }
 
     private fun showMines() {
